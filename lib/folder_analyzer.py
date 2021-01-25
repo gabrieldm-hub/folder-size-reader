@@ -146,14 +146,17 @@ class GetFolderSizeDetailed:
             # for fo in folders:
             size_original = 0
             for dirpath, dirnames, filenames in os.walk(os.path.join(self.root,folder)):
-                for f in filenames:
-                    fp = os.path.join(dirpath, f)
-                    # skip if it is symbolic link
-                    if not os.path.islink(fp):
-                        s = os.path.getsize(fp)
-                    else:
-                        s = 0
-                    size_original += s
+                try:
+                    for f in filenames:
+                        fp = os.path.join(dirpath, f)
+                        # skip if it is symbolic link
+                        if not os.path.islink(fp):
+                            s = os.path.getsize(fp)
+                        else:
+                            s = 0
+                        size_original += s
+                except Exception as e:
+                    print(e)
 
             return size_original
         except Exception as e:
